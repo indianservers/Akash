@@ -1,5 +1,5 @@
 "use client";
-import { Html } from "@react-three/drei";
+import { Billboard, Text } from "@react-three/drei";
 import type { StarWithPosition } from "@/types";
 
 interface Props {
@@ -33,23 +33,35 @@ export function SkyLabels({ objects, selectedObjectId, sphereRadius = 500 }: Pro
     <>
       {labels.map((object) => {
         const selected = object.id === selectedObjectId;
+        const position: [number, number, number] = [
+          (object.x ?? 0) * sphereRadius,
+          (object.y ?? 0) * sphereRadius,
+          (object.z ?? 0) * sphereRadius,
+        ];
         return (
-          <Html
+          <Billboard
             key={object.id}
-            position={[
-              (object.x ?? 0) * sphereRadius,
-              (object.y ?? 0) * sphereRadius,
-              (object.z ?? 0) * sphereRadius,
-            ]}
-            center
-            distanceFactor={selected ? 205 : 185}
-            zIndexRange={selected ? [80, 0] : [20, 0]}
-            style={{ pointerEvents: "none" }}
+            position={position}
+            follow
+            lockX={false}
+            lockY={false}
+            lockZ={false}
           >
-            <div className={`sky-object-label ${selected ? "sky-object-label-selected" : ""}`}>
-              <span className="sky-object-label-name">{displayName(object)}</span>
-            </div>
-          </Html>
+            <Text
+              position={[selected ? 9 : 7, selected ? 5 : 4, 0]}
+              anchorX="left"
+              anchorY="middle"
+              color={selected ? "#ffd76a" : "#f4f7ff"}
+              fontSize={selected ? 13 : 10}
+              maxWidth={selected ? 130 : 105}
+              outlineWidth={selected ? 0.62 : 0.48}
+              outlineColor="#020308"
+              outlineOpacity={0.96}
+              renderOrder={selected ? 12 : 8}
+            >
+              {displayName(object)}
+            </Text>
+          </Billboard>
         );
       })}
     </>
