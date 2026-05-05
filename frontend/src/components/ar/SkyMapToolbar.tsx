@@ -173,16 +173,16 @@ export function SkyMapToolbar({
   };
 
   return (
-    <div className="absolute left-3 right-3 bottom-4 z-20 pointer-events-none md:left-4 md:right-auto md:bottom-5 md:w-[360px]">
-      <div className={`sky-command-deck pointer-events-auto rounded-lg p-3 shadow-2xl ${controlTone}`}>
+    <div className="absolute left-3 right-3 bottom-4 z-20 pointer-events-none md:left-4 md:right-auto md:bottom-5 md:w-[450px]">
+      <div className={`sky-command-deck pointer-events-auto rounded-lg p-4 shadow-2xl ${controlTone}`}>
         <div className="flex items-center justify-between gap-3">
           <div>
-            <p className="text-[11px] uppercase tracking-wider text-white/40">Sky map</p>
-            <p className="text-sm font-medium text-star-white">
+            <p className="text-sm uppercase tracking-wider text-white/45">Sky map</p>
+            <p className="text-xl font-bold text-star-white leading-snug">
               {visibleCount.toLocaleString()} visible / {nakedEyeCount.toLocaleString()} naked-eye / {galaxyCount} galaxies
             </p>
           </div>
-          <div className="text-right text-[11px] text-white/40">
+          <div className="text-right text-sm font-semibold text-white/45">
             <p>Drag to move</p>
             <p>Pinch or wheel to zoom</p>
           </div>
@@ -194,12 +194,12 @@ export function SkyMapToolbar({
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search stars, galaxies, constellations"
-            className="min-w-0 flex-1 rounded-md border border-white/10 bg-black/30 px-3 py-2 text-sm text-star-white placeholder-white/35 outline-none focus:border-star-blue/60"
+            className="min-w-0 flex-1 rounded-md border border-white/10 bg-black/30 px-4 py-3 text-lg font-semibold text-star-white placeholder-white/35 outline-none focus:border-star-blue/60"
           />
           <button
             type="button"
             onClick={() => onNightModeChange(!nightMode)}
-            className={`rounded-md border px-3 py-2 text-xs font-medium ${
+            className={`rounded-md border px-4 py-3 text-base font-bold ${
               nightMode
                 ? "border-red-400/50 bg-red-500/15 text-red-100"
                 : "border-white/10 bg-white/[0.03] text-white/60"
@@ -260,8 +260,8 @@ export function SkyMapToolbar({
                   : "border-white/10 bg-white/[0.03] text-white/55 hover:text-white"
               }`}
             >
-              <span className="block text-xs font-medium">{category.label}</span>
-              <span className="block text-[10px] text-white/35">{category.description}</span>
+              <span className="block text-base font-bold">{category.label}</span>
+              <span className="block text-xs text-white/40">{category.description}</span>
             </button>
           ))}
         </div>
@@ -270,7 +270,7 @@ export function SkyMapToolbar({
           <button
             type="button"
             onClick={() => onConstellationToggle(!showConstellations)}
-            className={`rounded-md border px-2 py-2 text-xs ${
+            className={`rounded-md border px-3 py-3 text-base font-bold ${
               showConstellations ? "border-star-blue bg-star-blue/15 text-star-white" : "border-white/10 bg-black/20 text-white/55"
             }`}
           >
@@ -279,7 +279,7 @@ export function SkyMapToolbar({
           <button
             type="button"
             onClick={() => onMilkyWayToggle(!showMilkyWay)}
-            className={`rounded-md border px-2 py-2 text-xs ${
+            className={`rounded-md border px-3 py-3 text-base font-bold ${
               showMilkyWay ? "border-star-blue bg-star-blue/15 text-star-white" : "border-white/10 bg-black/20 text-white/55"
             }`}
           >
@@ -288,7 +288,7 @@ export function SkyMapToolbar({
           <button
             type="button"
             onClick={() => onZodiacToggle(!showZodiac)}
-            className={`rounded-md border px-2 py-2 text-xs ${
+            className={`rounded-md border px-3 py-3 text-base font-bold ${
               showZodiac ? "border-star-gold bg-star-gold/15 text-star-white" : "border-white/10 bg-black/20 text-white/55"
             }`}
           >
@@ -300,7 +300,7 @@ export function SkyMapToolbar({
           <button
             type="button"
             onClick={() => onPlanetariumGuidesToggle(!showPlanetariumGuides)}
-            className={`rounded-md border px-2 py-2 text-xs ${
+            className={`rounded-md border px-3 py-3 text-base font-bold ${
               showPlanetariumGuides ? "border-star-blue bg-star-blue/15 text-star-white" : "border-white/10 bg-black/20 text-white/55"
             }`}
           >
@@ -309,7 +309,7 @@ export function SkyMapToolbar({
           <button
             type="button"
             onClick={() => onPlanetsToggle(!showPlanets)}
-            className={`rounded-md border px-2 py-2 text-xs ${
+            className={`rounded-md border px-3 py-3 text-base font-bold ${
               showPlanets ? "border-star-gold bg-star-gold/15 text-star-white" : "border-white/10 bg-black/20 text-white/55"
             }`}
           >
@@ -318,7 +318,7 @@ export function SkyMapToolbar({
           <button
             type="button"
             onClick={() => onPresentationModeToggle(!presentationMode)}
-            className="rounded-md border border-white/10 bg-black/20 px-2 py-2 text-xs text-white/55"
+            className="rounded-md border border-white/10 bg-black/20 px-3 py-3 text-base font-bold text-white/60"
           >
             Dome
           </button>
@@ -331,14 +331,14 @@ export function SkyMapToolbar({
               type="button"
               title={tour.description}
               onClick={() => onTourStart(tour.id)}
-              className={`rounded-md border px-2 py-2 text-left ${
+              className={`rounded-md border px-3 py-3 text-left ${
                 activeTour === tour.id
                   ? "border-star-gold bg-star-gold/15 text-star-white"
                   : "border-white/10 bg-black/20 text-white/55 hover:text-white"
               }`}
             >
-              <span className="block truncate text-xs font-medium">{tour.label}</span>
-              <span className="block truncate text-[10px] text-white/35">{tour.description}</span>
+              <span className="block truncate text-base font-bold">{tour.label}</span>
+              <span className="block truncate text-xs text-white/40">{tour.description}</span>
             </button>
           ))}
         </div>
@@ -348,21 +348,21 @@ export function SkyMapToolbar({
             <button
               type="button"
               onClick={() => onTourStep(-1)}
-              className="flex-1 rounded-md border border-white/10 bg-black/20 py-2 text-xs text-white/60 hover:text-white"
+              className="flex-1 rounded-md border border-white/10 bg-black/20 py-3 text-base font-bold text-white/65 hover:text-white"
             >
               Previous
             </button>
             <button
               type="button"
               onClick={() => onTourStep(1)}
-              className="flex-1 rounded-md border border-white/10 bg-black/20 py-2 text-xs text-white/60 hover:text-white"
+              className="flex-1 rounded-md border border-white/10 bg-black/20 py-3 text-base font-bold text-white/65 hover:text-white"
             >
               Next object
             </button>
             <button
               type="button"
               onClick={onShowcaseToggle}
-              className={`flex-1 rounded-md border py-2 text-xs ${
+              className={`flex-1 rounded-md border py-3 text-base font-bold ${
                 showcaseRunning
                   ? "border-star-gold bg-star-gold/15 text-star-white"
                   : "border-white/10 bg-black/20 text-white/60 hover:text-white"
@@ -373,7 +373,7 @@ export function SkyMapToolbar({
           </div>
         )}
 
-        <label className="mt-3 flex items-center gap-3 text-xs text-white/50">
+        <label className="mt-3 flex items-center gap-3 text-base font-semibold text-white/55">
           <span className="w-20">Brightness</span>
           <input
             type="range"
@@ -387,7 +387,7 @@ export function SkyMapToolbar({
           <span className="w-10 text-right font-mono text-star-white">{magnitudeLimit.toFixed(1)}</span>
         </label>
 
-        <label className="mt-3 flex items-center gap-3 text-xs text-white/50">
+        <label className="mt-3 flex items-center gap-3 text-base font-semibold text-white/55">
           <span className="w-20">Time</span>
           <input
             type="range"
@@ -401,17 +401,17 @@ export function SkyMapToolbar({
           <span className="w-10 text-right font-mono text-star-white">{timeLabel}</span>
         </label>
 
-        <p className="mt-3 text-[11px] uppercase tracking-wider text-white/35">Tonight from my location</p>
+        <p className="mt-4 text-sm font-bold uppercase tracking-wider text-white/40">Tonight from my location</p>
         <div className="mt-2 grid grid-cols-2 gap-2">
           {featuredStars.map((star) => (
             <button
               key={star.id}
               type="button"
               onClick={() => onSelectStar(star)}
-              className="rounded-md border border-white/10 bg-black/20 px-2 py-2 text-left hover:border-star-blue/50"
+              className="rounded-md border border-white/10 bg-black/20 px-3 py-3 text-left hover:border-star-blue/50"
             >
-              <span className="block truncate text-xs text-star-white">{displayName(star)}</span>
-              <span className="block text-[10px] text-white/40">
+              <span className="block truncate text-base font-bold text-star-white">{displayName(star)}</span>
+              <span className="block text-sm text-white/45">
                 Mag {star.magnitude?.toFixed(2) ?? "n/a"} · {visibilityBadge(star)}
               </span>
             </button>

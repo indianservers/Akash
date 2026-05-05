@@ -50,7 +50,7 @@ export function SkyLabels({ objects, selectedObjectId, sphereRadius = 500 }: Pro
               (object.z ?? 0) * sphereRadius,
             ]}
             center
-            distanceFactor={selected ? 56 : 78}
+            distanceFactor={selected ? 150 : 128}
             zIndexRange={selected ? [80, 0] : [20, 0]}
             style={{ pointerEvents: "none" }}
           >

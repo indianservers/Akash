@@ -94,13 +94,13 @@
   }
 
   .sky-object-label {
-    min-width: 152px;
+    min-width: 210px;
     transform: translateY(-22px);
     border: 1px solid rgba(126, 184, 247, 0.22);
     border-radius: 8px;
     background: rgba(2, 3, 8, 0.62);
     box-shadow: 0 0 22px rgba(126, 184, 247, 0.13);
-    padding: 0.5rem 0.62rem;
+    padding: 0.72rem 0.88rem;
     text-align: left;
     backdrop-filter: blur(12px);
   }
@@ -123,12 +123,12 @@
 
   .sky-object-label-name {
     display: block;
-    max-width: 230px;
+    max-width: 320px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     color: #f0f4ff;
-    font-size: 15px;
+    font-size: 23px;
     font-weight: 700;
   }
 
@@ -137,7 +137,7 @@
     margin-top: 1px;
     color: rgba(240, 244, 255, 0.46);
     font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
+    font-size: 15px;
   }
 
   .constellation-label {
