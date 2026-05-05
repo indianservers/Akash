@@ -50,7 +50,7 @@ export default function LandingPage() {
             transition={{ delay: 0.2, duration: 0.7 }}
             className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-b from-white to-star-blue bg-clip-text text-transparent"
           >
-            AR Star Registry
+            Akash
           </motion.h1>
 
           <motion.p
@@ -120,12 +120,12 @@ export default function LandingPage() {
       {/* Disclaimer */}
       <footer className="py-8 px-6 text-center border-t border-white/5">
         <p className="text-white/25 text-xs max-w-xl mx-auto">
-          Custom star names in AR Star Registry are ceremonial and recorded only in this private
+          Custom star names in Akash are ceremonial and recorded only in this private
           registry. They do not replace official astronomical names recognized by the International
           Astronomical Union.
         </p>
         <p className="text-white/20 text-xs mt-4">
-          © {new Date().getFullYear()} AR Star Registry. All rights reserved.
+          © {new Date().getFullYear()} Akash. All rights reserved.
         </p>
       </footer>
     </div>

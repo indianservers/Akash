@@ -3,7 +3,7 @@ from typing import List
 
 
 class Settings(BaseSettings):
-    APP_NAME: str = "AR Star Registry"
+    APP_NAME: str = "Akash"
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = False
     ENVIRONMENT: str = "production"

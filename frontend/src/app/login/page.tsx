@@ -56,7 +56,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <div className="text-5xl mb-4">✨</div>
-          <h1 className="text-2xl font-bold text-star-white">AR Star Registry</h1>
+          <h1 className="text-2xl font-bold text-star-white">Akash</h1>
           <p className="text-white/50 text-sm mt-2">Sign in to name your star</p>
         </div>
 

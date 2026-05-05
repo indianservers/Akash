@@ -53,7 +53,7 @@ export default function RegistryPage() {
     <div className="min-h-screen bg-space-950 text-star-white">
       <div className="sticky top-0 z-20 bg-space-950/90 backdrop-blur-sm border-b border-white/5 px-4 py-4 flex items-center justify-between">
         <Link href="/" className="text-white/50 text-sm">← Home</Link>
-        <h1 className="font-bold">Star Registry</h1>
+        <h1 className="font-bold">Akash Registry</h1>
         <Link href="/ar" className="text-star-blue text-sm">AR View</Link>
       </div>
 

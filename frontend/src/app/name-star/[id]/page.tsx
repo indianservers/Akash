@@ -187,7 +187,7 @@ export default function NamingFormPage() {
 
           {/* Disclaimer */}
           <div className="bg-space-800/60 border border-white/10 rounded-xl p-4 text-xs text-white/40 leading-relaxed">
-            Custom star names in AR Star Registry are ceremonial and recorded only in this private
+            Custom star names in Akash are ceremonial and recorded only in this private
             registry. They do not replace official astronomical names recognized by the International
             Astronomical Union.
           </div>

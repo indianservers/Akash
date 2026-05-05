@@ -103,7 +103,7 @@ def get_public_star_page(share_slug: str, db: Session = Depends(get_db)):
             "validity_plan": req.validity_plan,
         },
         "disclaimer": (
-            "Custom star names in AR Star Registry are ceremonial and recorded only in this "
+            "Custom star names in Akash are ceremonial and recorded only in this "
             "private registry. They do not replace official astronomical names recognized by "
             "the International Astronomical Union."
         ),

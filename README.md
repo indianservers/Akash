@@ -1,4 +1,4 @@
-# AR Star Registry
+# Akash
 
 A production-quality web application that lets users browse, identify, name, and dedicate real stars using mobile browser sensors — similar to SkyMap or Sky Guide.
 
@@ -289,5 +289,5 @@ PDF generation can be added using `reportlab` or `weasyprint` as a background ta
 
 ## Disclaimer
 
-> Custom star names in AR Star Registry are ceremonial and recorded only in this private registry.
+> Custom star names in Akash are ceremonial and recorded only in this private registry.
 > They do not replace official astronomical names recognized by the International Astronomical Union.

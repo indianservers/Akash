@@ -1,6 +1,6 @@
 {
-  "name": "AR Star Registry",
-  "short_name": "StarRegistry",
+  "name": "Akash",
+  "short_name": "Akash",
   "description": "Name a real star and see it in augmented reality",
   "start_url": "/",
   "display": "standalone",
@@ -30,7 +30,7 @@
       "description": "Open the AR star viewer"
     },
     {
-      "name": "Star Registry",
+      "name": "Akash Registry",
       "url": "/registry",
       "description": "Browse named stars"
     }

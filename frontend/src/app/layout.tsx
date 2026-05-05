@@ -2,10 +2,10 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AR Star Registry — Name a Real Star",
+  title: "Akash — Name a Real Star",
   description: "Browse real stars in augmented reality, name a star, and dedicate it to someone special.",
   manifest: "/manifest.json",
-  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "AR Star Registry" },
+  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "Akash" },
   icons: { apple: "/icons/apple-touch-icon.png" },
 };
 

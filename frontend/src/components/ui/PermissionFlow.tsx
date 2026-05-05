@@ -60,7 +60,7 @@ export function PermissionFlow({ onGranted, onSkip }: Props) {
 
       <div className="relative z-10 max-w-sm">
         <div className="text-6xl mb-6 animate-float">✨</div>
-        <h1 className="text-3xl font-bold text-star-white mb-3">AR Star Registry</h1>
+        <h1 className="text-3xl font-bold text-star-white mb-3">Akash</h1>
         <p className="text-white/60 mb-8 leading-relaxed">
           Point your phone toward the sky to see real stars and constellations aligned with the
           actual night sky.
@@ -69,7 +69,7 @@ export function PermissionFlow({ onGranted, onSkip }: Props) {
         {step === "explain" && (
           <>
             <div className="bg-space-800/60 border border-white/10 rounded-2xl p-4 mb-6 text-left">
-              <p className="text-white/80 text-sm mb-3">AR Star Registry needs:</p>
+              <p className="text-white/80 text-sm mb-3">Akash needs:</p>
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-sm text-white/60">
                   <span>📍</span>
