@@ -12,6 +12,7 @@ import { StarField } from "./StarField";
 import { StarDetailPanel } from "@/components/ui/StarDetailPanel";
 import { CompassOverlay } from "./CompassOverlay";
 import { GalaxyField } from "./GalaxyField";
+import { GuideArrowTracker, type GuideVector } from "./GuideArrowTracker";
 import { HorizonBand } from "./HorizonBand";
 import { CinematicOverlays } from "./CinematicOverlays";
 import { ObjectMiniCard } from "./ObjectMiniCard";
@@ -72,6 +73,7 @@ export function ARViewer({ initialStars }: Props) {
   const [showcaseRunning, setShowcaseRunning] = useState(false);
   const [showGestureTutorial, setShowGestureTutorial] = useState(false);
   const [guideTargetId, setGuideTargetId] = useState<number | null>(null);
+  const [guideVector, setGuideVector] = useState<GuideVector | null>(null);
   const { audioEnabled, setAudioEnabled, playClick } = useSkyAudio();
   const catalogStars = useCatalogStars();
   const catalogGalaxies = useCatalogGalaxies();
@@ -369,6 +371,10 @@ export function ARViewer({ initialStars }: Props) {
             objects={filteredStars}
             selectedObjectId={selectedStar?.id}
           />
+          <GuideArrowTracker
+            target={guideTargetId === selectedStar?.id ? selectedStar : null}
+            onVector={setGuideVector}
+          />
           <SkyControls />
         </Suspense>
       </Canvas>
@@ -384,7 +390,11 @@ export function ARViewer({ initialStars }: Props) {
         target={guideTargetId === selectedStar?.id ? selectedStar : null}
         orientation={orientation}
         isARMode={isARMode}
-        onClear={() => setGuideTargetId(null)}
+        guideVector={guideTargetId === selectedStar?.id ? guideVector : null}
+        onClear={() => {
+          setGuideTargetId(null);
+          setGuideVector(null);
+        }}
       />
 
       <div className="absolute right-4 top-4 z-20 glass-chip rounded-lg text-xs text-star-blue">
@@ -419,6 +429,7 @@ export function ARViewer({ initialStars }: Props) {
             playClick();
             setSelectedStar(null);
             setGuideTargetId(null);
+            setGuideVector(null);
           }}
           onToggleFavorite={toggleFavorite}
           onShare={shareSelected}

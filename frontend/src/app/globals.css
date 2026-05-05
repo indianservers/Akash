@@ -281,6 +281,7 @@
   }
 
   .target-guide-arrow {
+    position: relative;
     display: grid;
     place-items: center;
     width: 64px;
@@ -291,14 +292,75 @@
     background: rgba(126, 184, 247, 0.1);
     box-shadow: 0 0 30px rgba(126, 184, 247, 0.2);
     color: #7eb8f7;
-    font-size: 42px;
     font-weight: 900;
+  }
+
+  .target-guide-arrow strong {
+    margin-top: 2.4rem;
+    color: rgba(240, 244, 255, 0.6);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .target-guide-arrow-shape,
+  .target-guide-screen-arrow span {
+    position: absolute;
+    width: 38px;
+    height: 12px;
+    border-radius: 999px;
+    background: currentColor;
+    box-shadow: 0 0 18px currentColor;
+  }
+
+  .target-guide-arrow-shape::after,
+  .target-guide-screen-arrow span::after {
+    content: "";
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    border-right: 10px solid currentColor;
+    border-top: 10px solid currentColor;
+    transform: translateY(-50%) rotate(45deg);
   }
 
   .target-guide-arrow-locked {
     border-color: rgba(255, 215, 0, 0.5);
     background: rgba(255, 215, 0, 0.14);
     color: #ffd700;
+  }
+
+  .target-guide-screen-arrow {
+    position: absolute;
+    z-index: 32;
+    display: grid;
+    place-items: center;
+    width: 78px;
+    height: 78px;
+    border-radius: 999px;
+    border: 1px solid rgba(126, 184, 247, 0.34);
+    background: radial-gradient(circle, rgba(126, 184, 247, 0.2), rgba(2, 3, 8, 0.22) 64%, transparent 68%);
+    color: #7eb8f7;
+    pointer-events: none;
+    filter: drop-shadow(0 0 18px rgba(126, 184, 247, 0.46));
+  }
+
+  .target-guide-screen-arrow-inline {
+    opacity: 0.74;
+    transform-origin: center;
+  }
+
+  .target-guide-screen-arrow-edge {
+    background: radial-gradient(circle, rgba(126, 184, 247, 0.28), rgba(2, 3, 8, 0.42) 62%, transparent 70%);
+    animation: guideArrowPulse 1.1s ease-in-out infinite;
+  }
+
+  .target-guide-screen-arrow-locked {
+    border-color: rgba(255, 215, 0, 0.56);
+    color: #ffd700;
+    filter: drop-shadow(0 0 22px rgba(255, 215, 0, 0.44));
   }
 
   .target-guide-grid {
@@ -459,6 +521,18 @@
   }
   to {
     rotate: 360deg;
+  }
+}
+
+@keyframes guideArrowPulse {
+  0%,
+  100% {
+    scale: 1;
+    opacity: 0.78;
+  }
+  50% {
+    scale: 1.12;
+    opacity: 1;
   }
 }
 
