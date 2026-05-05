@@ -9,7 +9,7 @@ interface Props {
 }
 
 function displayName(object: StarWithPosition): string {
-  return object.custom_name || object.common_name || object.scientific_name || object.catalog_id || `Object ${object.id}`;
+  return object.custom_name || object.common_name || object.bayer_designation || object.scientific_name || object.catalog_id || `Object ${object.id}`;
 }
 
 function badge(object: StarWithPosition): string {
@@ -22,13 +22,20 @@ function badge(object: StarWithPosition): string {
 export function SkyLabels({ objects, selectedObjectId, sphereRadius = 500 }: Props) {
   const labels = objects
     .filter((object) => object.x !== undefined)
-    .filter((object) => object.id === selectedObjectId || object.object_kind === "galaxy" || (object.magnitude ?? 99) <= 1.8)
+    .filter(
+      (object) =>
+        object.id === selectedObjectId ||
+        object.object_kind === "galaxy" ||
+        object.custom_name ||
+        object.common_name ||
+        (object.magnitude ?? 99) <= 3.2
+    )
     .sort((a, b) => {
       if (a.id === selectedObjectId) return -1;
       if (b.id === selectedObjectId) return 1;
       return (a.magnitude ?? 99) - (b.magnitude ?? 99);
     })
-    .slice(0, 14);
+    .slice(0, 42);
 
   return (
     <>
