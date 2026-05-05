@@ -97,11 +97,13 @@ docker-compose up --build -d
 # The app will automatically:
 # 1. Create the MySQL database
 # 2. Run Alembic migrations
-# 3. Seed 30 real named stars (Sirius, Vega, Polaris, etc.)
-# 4. Create admin user
+# 3. Create admin user
+# 4. Seed real named stars (Sirius, Vega, Polaris, etc.)
+# 5. Import the bundled 9,971-star naked-eye catalog into MySQL
+#    Duplicate coordinates are skipped, so named seed stars stay canonical.
 
 # Open the app
-open http://localhost:3000
+open http://localhost:4000
 ```
 
 ### Without Docker
@@ -128,6 +130,7 @@ alembic upgrade head
 # Seed data
 python scripts/seed_admin.py
 python scripts/seed_stars.py
+python scripts/import_catalog_stars.py
 
 # Start server
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload

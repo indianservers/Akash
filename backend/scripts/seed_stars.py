@@ -50,12 +50,19 @@ def seed():
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
-        existing = db.query(Star).count()
-        if existing > 0:
-            print(f"Stars already seeded ({existing} records). Skipping.")
+        seed_catalog_ids = [star["catalog_id"] for star in SEED_STARS]
+        existing_catalog_ids = {
+            catalog_id
+            for (catalog_id,) in db.query(Star.catalog_id)
+            .filter(Star.catalog_id.in_(seed_catalog_ids))
+            .all()
+        }
+        missing_stars = [star for star in SEED_STARS if star["catalog_id"] not in existing_catalog_ids]
+        if not missing_stars:
+            print(f"Named stars already seeded ({len(existing_catalog_ids)} records). Skipping.")
             return
 
-        for data in SEED_STARS:
+        for data in missing_stars:
             star = Star(
                 catalog_id=data["catalog_id"],
                 hip_id=data.get("hip_id"),
@@ -83,7 +90,7 @@ def seed():
             db.add(star)
 
         db.commit()
-        print(f"Seeded {len(SEED_STARS)} stars successfully.")
+        print(f"Seeded {len(missing_stars)} named stars successfully.")
     finally:
         db.close()
 

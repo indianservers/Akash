@@ -30,12 +30,12 @@ services:
       DATABASE_URL: mysql+pymysql://staruser:starpass@db:3306/star_registry
       SECRET_KEY: change-this-to-random-64-char-secret-key-in-production
       DEBUG: "false"
-      ALLOWED_ORIGINS: "http://localhost:3000,https://yourdomain.com"
+      ALLOWED_ORIGINS: "http://localhost:3000,http://localhost:4000,https://yourdomain.com"
       ADMIN_EMAIL: admin@example.com
       ADMIN_PASSWORD: Admin@123456
       ADMIN_NAME: System Admin
     ports:
-      - "9000:9000"
+      - "9000:8000"
     depends_on:
       db:
         condition: service_healthy
