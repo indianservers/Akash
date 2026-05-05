@@ -43,7 +43,7 @@ NameMyStar/
 │   │   ├── schemas/            # Pydantic schemas
 │   │   └── services/           # naming logic, audit logs
 │   ├── alembic/                # DB migrations
-│   ├── scripts/                # seed_stars.py, seed_admin.py
+│   ├── scripts/                # seed_admin.py, seed_stars.py, import_catalog_stars.py, seed_planets.py
 │   ├── main.py
 │   └── requirements.txt
 ├── frontend/
@@ -99,8 +99,9 @@ docker-compose up --build -d
 # 2. Run Alembic migrations
 # 3. Create admin user
 # 4. Seed real named stars (Sirius, Vega, Polaris, etc.)
-# 5. Import the bundled 9,971-star naked-eye catalog into MySQL
-#    Duplicate coordinates are skipped, so named seed stars stay canonical.
+# 5. Import the bundled 20,000-star HYG catalog into MySQL
+#    Includes all bundled naked-eye stars; duplicate coordinates are skipped.
+# 6. Seed real solar-system metadata for planets, Pluto, and the Moon
 
 # Open the app
 open http://localhost:4000
@@ -131,6 +132,7 @@ alembic upgrade head
 python scripts/seed_admin.py
 python scripts/seed_stars.py
 python scripts/import_catalog_stars.py
+python scripts/seed_planets.py
 
 # Start server
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
@@ -225,26 +227,29 @@ GET    /api/v1/registry/{share_slug}
 - **`users`** — JWT auth with role-based access (User, Admin, SuperAdmin)
 - **`audit_logs`** — Complete audit trail of admin actions
 
+The database also includes `solar_system_objects` for real planet, dwarf planet, and Moon metadata used by runtime ephemeris rendering.
+
 ### Star Catalog
 
-The seed script includes 30 real named stars from the Hipparcos catalog with full astronomical data.
+The first-run importer loads a bundled 20,000-star HYG catalog into MySQL. HYG combines Hipparcos, Yale Bright Star, and Gliese catalog data, including RA/Dec, apparent magnitude, spectral class, color index, distance, catalog IDs, and proper names when available.
 
-To import a larger catalog (e.g., the full Hipparcos or Gaia DR3 catalog):
-
-```python
-# backend/scripts/import_catalog.py
-# Parse the catalog CSV/FITS file and bulk-insert into the stars table
-```
+The bundled catalog includes all naked-eye stars present in the generated Akash slice (`magnitude <= 6.5`) and then adds fainter real HYG stars until the database has at least 20,000 stars. Planets and the Moon are seeded into `solar_system_objects`; their live sky positions are computed at runtime because they move against the fixed star field.
 
 ---
 
-## Expanding Star Catalog
+## Rebuilding Star Catalog
 
-To add the full Hipparcos catalog (~118,000 stars):
+To rebuild the bundled HYG catalog:
 
-1. Download `hip_main.dat` from the ESA Hipparcos archive.
-2. Parse with `pandas` and bulk-insert into the `stars` table.
-3. Filter `magnitude < 6` for naked-eye visible stars (~9,000 stars).
+```bash
+cd backend
+python scripts/build_hyg_catalog.py
+```
+
+This downloads the HYG CSV and writes:
+
+- `backend/app/data/stars_catalog.json` for database import
+- `frontend/public/stars_catalog.json` for the AR renderer
 
 ---
 

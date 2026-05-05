@@ -1,5 +1,5 @@
 """
-Import the bundled naked-eye star catalog into the database.
+Import the bundled HYG star catalog into the database.
 
 Run: python scripts/import_catalog_stars.py
 """
@@ -35,6 +35,45 @@ def star_type_from_color_index(bv: float | None) -> StarType:
     return StarType.RED_DWARF
 
 
+def normalize_star(row: dict | list, index: int) -> dict:
+    if isinstance(row, dict):
+        return {
+            "catalog_id": row.get("catalog_id") or f"NMS-{index:05d}",
+            "hip_id": row.get("hip_id"),
+            "hd_id": row.get("hd_id"),
+            "common_name": row.get("common_name"),
+            "scientific_name": row.get("scientific_name") or f"Milky Way Star {index:05d}",
+            "bayer_designation": row.get("bayer_designation"),
+            "flamsteed_designation": row.get("flamsteed_designation"),
+            "ra": float(row["ra"]),
+            "dec": float(row["dec"]),
+            "magnitude": float(row["magnitude"]) if row.get("magnitude") is not None else None,
+            "absolute_magnitude": row.get("absolute_magnitude"),
+            "spectral_class": row.get("spectral_class"),
+            "color_index_bv": row.get("color_index_bv"),
+            "distance_parsecs": row.get("distance_parsecs"),
+            "constellation_abbr": row.get("constellation_abbr"),
+            "is_visible_naked_eye": bool(row.get("is_visible_naked_eye", False)),
+        }
+
+    ra, dec, magnitude, bv, *_ = row
+    return {
+        "catalog_id": f"NMS-{index:05d}",
+        "scientific_name": f"Milky Way Star {index:05d}",
+        "ra": float(ra),
+        "dec": float(dec),
+        "magnitude": float(magnitude),
+        "color_index_bv": bv,
+        "is_visible_naked_eye": float(magnitude) <= 6.5,
+    }
+
+
+def ly_from_parsecs(parsecs: float | None) -> float | None:
+    if parsecs is None:
+        return None
+    return float(parsecs) * 3.26156
+
+
 def catalog_path() -> Path:
     for path in CATALOG_PATHS:
         if path.exists():
@@ -51,10 +90,10 @@ def seed() -> None:
     rows = catalog.get("stars", [])
     db = SessionLocal()
     try:
-        existing_nms_ids = {
+        existing_catalog_ids = {
             catalog_id
             for (catalog_id,) in db.query(Star.catalog_id)
-            .filter(Star.catalog_id.like("NMS-%"))
+            .filter(Star.catalog_id.isnot(None))
             .all()
         }
         existing_coords = {
@@ -65,27 +104,38 @@ def seed() -> None:
         created = 0
         batch: list[Star] = []
         for index, row in enumerate(rows, start=1):
-            ra, dec, magnitude, bv, *_ = row
-            catalog_id = f"NMS-{index:05d}"
-            coord_key = (round(float(ra), 4), round(float(dec), 4))
-            if catalog_id in existing_nms_ids or coord_key in existing_coords:
+            star_data = normalize_star(row, index)
+            magnitude = star_data.get("magnitude")
+            bv = star_data.get("color_index_bv")
+            coord_key = (round(float(star_data["ra"]), 4), round(float(star_data["dec"]), 4))
+            if star_data["catalog_id"] in existing_catalog_ids or coord_key in existing_coords:
                 continue
 
             batch.append(
                 Star(
-                    catalog_id=catalog_id,
-                    scientific_name=f"Milky Way Star {index:05d}",
-                    ra=ra,
-                    dec=dec,
+                    catalog_id=star_data["catalog_id"],
+                    hip_id=star_data.get("hip_id"),
+                    hd_id=star_data.get("hd_id"),
+                    common_name=star_data.get("common_name"),
+                    scientific_name=star_data.get("scientific_name"),
+                    bayer_designation=star_data.get("bayer_designation"),
+                    flamsteed_designation=star_data.get("flamsteed_designation"),
+                    ra=star_data["ra"],
+                    dec=star_data["dec"],
                     ra_unit=RAUnit.DEGREES,
                     magnitude=magnitude,
+                    absolute_magnitude=star_data.get("absolute_magnitude"),
+                    spectral_class=star_data.get("spectral_class"),
                     color_index_bv=bv,
+                    constellation_abbr=star_data.get("constellation_abbr"),
                     star_type=star_type_from_color_index(bv),
-                    is_visible_naked_eye=magnitude <= 6.5,
+                    distance_light_years=ly_from_parsecs(star_data.get("distance_parsecs")),
+                    is_visible_naked_eye=star_data.get("is_visible_naked_eye", False),
                     is_available_for_naming=True,
                     registry_status=RegistryStatus.AVAILABLE,
                 )
             )
+            existing_catalog_ids.add(star_data["catalog_id"])
             existing_coords.add(coord_key)
 
             if len(batch) >= 1000:
@@ -102,7 +152,7 @@ def seed() -> None:
         if created:
             print(f"Imported {created} catalog stars from {path}.")
         else:
-            print(f"Catalog stars already imported ({len(existing_nms_ids)} NMS records). Skipping.")
+            print(f"Catalog stars already imported. Skipping.")
     finally:
         db.close()
 
