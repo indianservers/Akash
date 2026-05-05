@@ -1,0 +1,38 @@
+{
+  "name": "AR Star Registry",
+  "short_name": "StarRegistry",
+  "description": "Name a real star and see it in augmented reality",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020308",
+  "theme_color": "#020308",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "screenshots": [],
+  "categories": ["education", "entertainment"],
+  "shortcuts": [
+    {
+      "name": "AR Sky View",
+      "url": "/ar",
+      "description": "Open the AR star viewer"
+    },
+    {
+      "name": "Star Registry",
+      "url": "/registry",
+      "description": "Browse named stars"
+    }
+  ]
+}

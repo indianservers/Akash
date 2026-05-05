@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: star_registry_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: star_registry
+      MYSQL_USER: staruser
+      MYSQL_PASSWORD: starpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "staruser", "-pstarpass"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: star_registry_backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: mysql+pymysql://staruser:starpass@db:3306/star_registry
+      SECRET_KEY: change-this-to-random-64-char-secret-key-in-production
+      DEBUG: "false"
+      ALLOWED_ORIGINS: "http://localhost:3000,https://yourdomain.com"
+      ADMIN_EMAIL: admin@example.com
+      ADMIN_PASSWORD: Admin@123456
+      ADMIN_NAME: System Admin
+    ports:
+      - "9000:9000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: star_registry_frontend
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:9000/api/v1
+    ports:
+      - "4000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:

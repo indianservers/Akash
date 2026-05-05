@@ -1,0 +1,496 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body, #__next {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  :root {
+    --space-950: #020308;
+    --star-blue: #7eb8f7;
+    --star-white: #f0f4ff;
+    --star-gold: #ffd700;
+  }
+}
+
+@layer components {
+  .glass-chip {
+    @apply bg-black/50 backdrop-blur-sm border border-white/10 rounded-xl px-3 py-1.5;
+  }
+
+  .glass-panel {
+    @apply bg-space-900/80 backdrop-blur-xl border border-white/10 rounded-2xl;
+  }
+
+  .star-glow {
+    filter: drop-shadow(0 0 8px rgba(126, 184, 247, 0.7));
+  }
+
+  .btn-primary {
+    @apply bg-star-blue text-space-950 font-bold py-3 px-6 rounded-xl transition-all active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply border border-white/20 text-star-white py-3 px-6 rounded-xl transition-all active:scale-95;
+  }
+
+  .form-input {
+    @apply w-full bg-space-800 border border-white/10 rounded-xl px-4 py-3 text-star-white placeholder-white/30 focus:outline-none focus:border-star-blue/50 transition-colors;
+  }
+
+  .form-label {
+    @apply block text-sm text-white/60 mb-1.5;
+  }
+
+  .form-select {
+    @apply w-full bg-space-800 border border-white/10 rounded-xl px-4 py-3 text-star-white focus:outline-none focus:border-star-blue/50 transition-colors;
+  }
+
+  .sky-command-deck {
+    background:
+      linear-gradient(135deg, rgba(126, 184, 247, 0.13), rgba(5, 13, 26, 0.72) 38%, rgba(2, 3, 8, 0.92)),
+      radial-gradient(circle at 20% 0%, rgba(255, 215, 0, 0.1), transparent 42%);
+    border: 1px solid rgba(240, 244, 255, 0.13);
+    box-shadow:
+      0 24px 80px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 0 34px rgba(126, 184, 247, 0.08);
+    backdrop-filter: blur(22px);
+  }
+
+  .observatory-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-width: 132px;
+    border-radius: 8px;
+    border: 1px solid rgba(126, 184, 247, 0.18);
+    background: linear-gradient(135deg, rgba(5, 13, 26, 0.78), rgba(2, 3, 8, 0.62));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 10px 30px rgba(0, 0, 0, 0.28);
+    padding: 0.5rem 0.7rem;
+    backdrop-filter: blur(16px);
+  }
+
+  .object-mini-card {
+    border: 1px solid rgba(240, 244, 255, 0.15);
+    background:
+      linear-gradient(160deg, rgba(126, 184, 247, 0.14), rgba(5, 13, 26, 0.9) 36%, rgba(2, 3, 8, 0.96)),
+      radial-gradient(circle at 90% 0%, rgba(217, 194, 255, 0.18), transparent 34%);
+    box-shadow:
+      0 24px 70px rgba(0, 0, 0, 0.5),
+      0 0 46px rgba(126, 184, 247, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(24px);
+  }
+
+  .sky-object-label {
+    min-width: 118px;
+    transform: translateY(-22px);
+    border: 1px solid rgba(126, 184, 247, 0.22);
+    border-radius: 8px;
+    background: rgba(2, 3, 8, 0.62);
+    box-shadow: 0 0 22px rgba(126, 184, 247, 0.13);
+    padding: 0.38rem 0.48rem;
+    text-align: left;
+    backdrop-filter: blur(12px);
+  }
+
+  .sky-object-label::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -14px;
+    width: 1px;
+    height: 14px;
+    background: linear-gradient(to bottom, rgba(126, 184, 247, 0.75), transparent);
+  }
+
+  .sky-object-label-selected {
+    border-color: rgba(255, 215, 0, 0.48);
+    background: rgba(16, 12, 4, 0.72);
+    box-shadow: 0 0 34px rgba(255, 215, 0, 0.2);
+  }
+
+  .sky-object-label-name {
+    display: block;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #f0f4ff;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .sky-object-label-meta {
+    display: block;
+    margin-top: 1px;
+    color: rgba(240, 244, 255, 0.46);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9px;
+  }
+
+  .constellation-label {
+    border-radius: 999px;
+    border: 1px solid rgba(126, 184, 247, 0.18);
+    background: rgba(2, 3, 8, 0.42);
+    box-shadow: 0 0 18px rgba(126, 184, 247, 0.08);
+    padding: 0.18rem 0.5rem;
+    color: rgba(240, 244, 255, 0.54);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    backdrop-filter: blur(10px);
+  }
+
+  .zodiac-label {
+    min-width: 118px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.34);
+    background: linear-gradient(135deg, rgba(54, 37, 2, 0.82), rgba(10, 6, 0, 0.7));
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    padding: 0.42rem 0.78rem;
+    color: rgba(255, 238, 174, 0.96);
+    text-align: center;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    opacity: 0.92;
+    transition: opacity 160ms ease, transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    pointer-events: auto;
+  }
+
+  .zodiac-label span {
+    display: block;
+    color: rgba(255, 238, 174, 0.5);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .zodiac-label strong {
+    display: block;
+    margin-top: 1px;
+    color: rgba(255, 238, 174, 0.98);
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .zodiac-label-active,
+  .zodiac-label:hover {
+    opacity: 1;
+    transform: scale(1.08);
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.22), rgba(34, 22, 0, 0.78));
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+
+
+  .zoom-scale-panel {
+    display: grid;
+    grid-template-rows: 32px 132px 32px;
+    align-items: center;
+    justify-items: center;
+    border-radius: 10px;
+    border: 1px solid rgba(126, 184, 247, 0.18);
+    background: linear-gradient(145deg, rgba(5, 13, 26, 0.78), rgba(2, 3, 8, 0.72));
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    padding: 0.4rem;
+    backdrop-filter: blur(16px);
+  }
+
+  .zoom-scale-panel button {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #f0f4ff;
+    background: rgba(255, 255, 255, 0.06);
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .zoom-scale-panel input {
+    width: 126px;
+    transform: rotate(-90deg);
+    accent-color: #7eb8f7;
+  }
+
+  .zoom-scale-panel-night {
+    border-color: rgba(248, 113, 113, 0.32);
+    background: linear-gradient(145deg, rgba(60, 0, 0, 0.72), rgba(10, 0, 0, 0.82));
+  }
+
+  .planetarium-dome {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at 50% 100%, rgba(126, 184, 247, 0.18), transparent 42%),
+      radial-gradient(circle at 50% 55%, transparent 0%, transparent 58%, rgba(126, 184, 247, 0.06) 59%, transparent 60%),
+      linear-gradient(to top, rgba(2, 3, 8, 0.42), transparent 24%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 92%, transparent 100%);
+  }
+
+  .planetarium-planet-label {
+    border-radius: 999px;
+    border: 1px solid rgba(255, 215, 0, 0.26);
+    background: rgba(10, 7, 2, 0.58);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.16);
+    padding: 0.18rem 0.52rem;
+    color: rgba(255, 238, 174, 0.92);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    backdrop-filter: blur(10px);
+  }
+
+  .target-guide {
+    position: absolute;
+    left: 50%;
+    top: 11.25rem;
+    z-index: 31;
+    width: min(92vw, 360px);
+    transform: translateX(-50%);
+    border: 1px solid rgba(126, 184, 247, 0.2);
+    border-radius: 10px;
+    background: linear-gradient(150deg, rgba(5, 13, 26, 0.78), rgba(2, 3, 8, 0.72));
+    box-shadow: 0 20px 65px rgba(0, 0, 0, 0.38), 0 0 32px rgba(126, 184, 247, 0.08);
+    padding: 0.75rem;
+    backdrop-filter: blur(18px);
+  }
+
+  .target-guide-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .target-guide-header button {
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(240, 244, 255, 0.58);
+    padding: 0.25rem 0.55rem;
+    font-size: 11px;
+  }
+
+  .target-guide-kicker {
+    color: rgba(126, 184, 247, 0.68);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  .target-guide-name {
+    margin-top: 0.1rem;
+    color: #f0f4ff;
+    font-size: 15px;
+    font-weight: 800;
+  }
+
+  .target-guide-arrow {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin: 0.75rem auto;
+    border-radius: 999px;
+    border: 1px solid rgba(126, 184, 247, 0.32);
+    background: rgba(126, 184, 247, 0.1);
+    box-shadow: 0 0 30px rgba(126, 184, 247, 0.2);
+    color: #7eb8f7;
+    font-size: 42px;
+    font-weight: 900;
+  }
+
+  .target-guide-arrow-locked {
+    border-color: rgba(255, 215, 0, 0.5);
+    background: rgba(255, 215, 0, 0.14);
+    color: #ffd700;
+  }
+
+  .target-guide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .target-guide-grid div {
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 0.45rem;
+  }
+
+  .target-guide-grid span {
+    display: block;
+    color: rgba(240, 244, 255, 0.38);
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+
+  .target-guide-grid strong {
+    display: block;
+    margin-top: 0.1rem;
+    color: #f0f4ff;
+    font-size: 12px;
+  }
+
+  .target-guide-note {
+    margin-top: 0.55rem;
+    color: rgba(240, 244, 255, 0.42);
+    font-size: 11px;
+    text-align: center;
+  }
+
+  .sky-vignette,
+  .sky-horizon-glow,
+  .sky-scanlines {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .sky-vignette {
+    background:
+      radial-gradient(circle at 50% 42%, transparent 0%, rgba(2, 3, 8, 0.18) 48%, rgba(2, 3, 8, 0.72) 100%),
+      linear-gradient(to bottom, rgba(126, 184, 247, 0.05), transparent 34%, rgba(255, 215, 0, 0.05) 100%);
+    mix-blend-mode: screen;
+  }
+
+  .sky-vignette-night {
+    background:
+      radial-gradient(circle at 50% 42%, transparent 0%, rgba(20, 0, 0, 0.26) 52%, rgba(10, 0, 0, 0.76) 100%),
+      linear-gradient(to bottom, rgba(255, 40, 40, 0.06), transparent 48%, rgba(255, 80, 80, 0.08) 100%);
+  }
+
+  .sky-horizon-glow {
+    top: auto;
+    height: 30%;
+    background: radial-gradient(ellipse at 50% 100%, rgba(126, 184, 247, 0.18), transparent 66%);
+  }
+
+  .sky-scanlines {
+    opacity: 0.12;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 100% 5px;
+    mask-image: linear-gradient(to bottom, transparent, black 18%, black 78%, transparent);
+  }
+
+  .selection-orbit {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(126, 184, 247, 0.4);
+    border-radius: 999px;
+    box-shadow: 0 0 20px rgba(126, 184, 247, 0.16);
+    animation: selectionOrbit 8s linear infinite;
+  }
+
+  .selection-orbit-a {
+    transform: rotateX(66deg) rotateZ(18deg);
+  }
+
+  .selection-orbit-b {
+    transform: rotateY(62deg) rotateZ(72deg);
+    animation-duration: 11s;
+  }
+
+  .selection-orbit-c {
+    transform: rotateX(58deg) rotateY(32deg);
+    animation-duration: 14s;
+  }
+
+  .horizon-band-shell {
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.32),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 0 36px rgba(126, 184, 247, 0.1);
+  }
+
+  .light-map {
+    position: relative;
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid rgba(126, 184, 247, 0.18);
+    background:
+      linear-gradient(90deg, rgba(126, 184, 247, 0.08) 1px, transparent 1px),
+      linear-gradient(rgba(126, 184, 247, 0.08) 1px, transparent 1px),
+      radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1), rgba(126, 184, 247, 0.06) 38%, rgba(2, 3, 8, 0.92));
+    background-size: 12px 12px, 12px 12px, 100% 100%;
+  }
+
+  .light-map span {
+    position: absolute;
+    inset: 12px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.5), rgba(255, 112, 67, 0.2) 54%, transparent 72%);
+    box-shadow: 0 0 20px rgba(255, 171, 64, 0.22);
+  }
+
+  .night-mode .glass-panel,
+  .night-mode .glass-chip {
+    background-color: rgba(32, 0, 0, 0.72);
+    border-color: rgba(248, 113, 113, 0.26);
+  }
+
+  .night-mode .text-star-blue,
+  .night-mode .text-star-white {
+    color: #fecaca;
+  }
+
+  .night-mode input,
+  .night-mode button {
+    border-color: rgba(248, 113, 113, 0.26);
+  }
+
+  .night-mode canvas {
+    filter: sepia(0.2) saturate(0.85);
+  }
+
+  .night-mode .sky-command-deck,
+  .night-mode .object-mini-card,
+  .night-mode .observatory-chip,
+  .night-mode .sky-object-label {
+    border-color: rgba(248, 113, 113, 0.32);
+    background: linear-gradient(150deg, rgba(60, 0, 0, 0.7), rgba(10, 0, 0, 0.88));
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.5), 0 0 28px rgba(248, 113, 113, 0.1);
+  }
+}
+
+@keyframes selectionOrbit {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(126, 184, 247, 0.3); border-radius: 2px; }
+
+/* PWA safe area */
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+.safe-top { padding-top: env(safe-area-inset-top); }
