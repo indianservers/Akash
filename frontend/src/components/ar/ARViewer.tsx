@@ -80,7 +80,7 @@ export function ARViewer({ initialStars }: Props) {
   useEffect(() => {
     api
       .get("/stars", {
-        params: { limit: 5000 },
+        params: { limit: 25000 },
       })
       .then((res) =>
         setDbStars(

@@ -91,6 +91,35 @@ function displayName(star: StarWithPosition): string {
   return star.scientific_name || star.catalog_id || `Star ${star.id}`;
 }
 
+function searchableValues(star: StarWithPosition): string[] {
+  return [
+    displayName(star),
+    star.catalog_id,
+    star.hip_id,
+    star.hd_id,
+    star.common_name,
+    star.scientific_name,
+    star.custom_name,
+    star.bayer_designation,
+    star.flamsteed_designation,
+    star.constellation,
+    star.constellation_abbr,
+    star.spectral_class,
+    star.star_type,
+  ]
+    .filter(Boolean)
+    .map((value) => String(value).toLowerCase());
+}
+
+function searchRank(star: StarWithPosition, searchTerm: string): number {
+  const values = searchableValues(star);
+  const exact = values.some((value) => value === searchTerm);
+  if (exact) return -1000 + (star.magnitude ?? 99);
+  const startsWith = values.some((value) => value.startsWith(searchTerm));
+  if (startsWith) return -500 + (star.magnitude ?? 99);
+  return star.magnitude ?? 99;
+}
+
 export function SkyMapToolbar({
   activeCategory,
   activeTour,
@@ -139,21 +168,9 @@ export function SkyMapToolbar({
   const searchTerm = query.trim().toLowerCase();
   const objectMatches = searchTerm
     ? stars
-        .filter((star) =>
-          [
-            displayName(star),
-            star.catalog_id,
-            star.common_name,
-            star.scientific_name,
-            star.custom_name,
-            star.constellation,
-            star.star_type,
-          ]
-            .filter(Boolean)
-            .some((value) => String(value).toLowerCase().includes(searchTerm))
-        )
-        .sort((a, b) => (a.magnitude ?? 99) - (b.magnitude ?? 99))
-        .slice(0, 6)
+        .filter((star) => searchableValues(star).some((value) => value.includes(searchTerm)))
+        .sort((a, b) => searchRank(a, searchTerm) - searchRank(b, searchTerm))
+        .slice(0, 10)
     : [];
   const constellationMatches = searchTerm
     ? constellations

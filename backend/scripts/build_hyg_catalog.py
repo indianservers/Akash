@@ -108,14 +108,24 @@ def read_stars(csv_path: Path) -> list[dict[str, object]]:
     return selected
 
 
-def compact_star(star: dict[str, object]) -> list[float]:
-    return [
-        float(star["ra"]),
-        float(star["dec"]),
-        float(star["magnitude"]),
-        float(star.get("color_index_bv", 0.65)),
-        0,
+def frontend_star(star: dict[str, object]) -> dict[str, object]:
+    keep = [
+        "catalog_id",
+        "hip_id",
+        "hd_id",
+        "common_name",
+        "scientific_name",
+        "bayer_designation",
+        "flamsteed_designation",
+        "ra",
+        "dec",
+        "magnitude",
+        "spectral_class",
+        "color_index_bv",
+        "constellation_abbr",
+        "is_visible_naked_eye",
     ]
+    return {key: star[key] for key in keep if key in star}
 
 
 def download_csv() -> Path:
@@ -144,18 +154,18 @@ def main() -> None:
         "naked_eye_count": sum(1 for star in stars if star["is_visible_naked_eye"]),
         "stars": stars,
     }
-    compact_catalog = {
+    frontend_catalog = {
         "version": 2,
         "source": rich_catalog["source"],
         "count": len(stars),
         "naked_eye_count": rich_catalog["naked_eye_count"],
-        "stars": [compact_star(star) for star in stars],
+        "stars": [frontend_star(star) for star in stars],
     }
 
     backend_path.write_text(json.dumps(rich_catalog, separators=(",", ":")), encoding="utf-8")
-    frontend_path.write_text(json.dumps(compact_catalog, separators=(",", ":")), encoding="utf-8")
+    frontend_path.write_text(json.dumps(frontend_catalog, separators=(",", ":")), encoding="utf-8")
     print(f"Wrote {backend_path} with {rich_catalog['count']} stars")
-    print(f"Wrote {frontend_path} with {compact_catalog['count']} stars")
+    print(f"Wrote {frontend_path} with {frontend_catalog['count']} stars")
 
 
 if __name__ == "__main__":
