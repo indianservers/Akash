@@ -12,30 +12,22 @@ function displayName(object: StarWithPosition): string {
   return object.custom_name || object.common_name || object.bayer_designation || object.scientific_name || object.catalog_id || `Object ${object.id}`;
 }
 
-function badge(object: StarWithPosition): string {
-  if (object.object_kind === "galaxy") return "Deep sky";
-  if (object.custom_name) return "Named";
-  if ((object.magnitude ?? 99) <= 2.5) return "Bright";
-  return "Star";
-}
-
 export function SkyLabels({ objects, selectedObjectId, sphereRadius = 500 }: Props) {
   const labels = objects
     .filter((object) => object.x !== undefined)
     .filter(
       (object) =>
         object.id === selectedObjectId ||
-        object.object_kind === "galaxy" ||
         object.custom_name ||
         object.common_name ||
-        (object.magnitude ?? 99) <= 3.2
+        ((object.magnitude ?? 99) <= 2.2 && object.object_kind !== "galaxy")
     )
     .sort((a, b) => {
       if (a.id === selectedObjectId) return -1;
       if (b.id === selectedObjectId) return 1;
       return (a.magnitude ?? 99) - (b.magnitude ?? 99);
     })
-    .slice(0, 42);
+    .slice(0, 90);
 
   return (
     <>
@@ -50,17 +42,12 @@ export function SkyLabels({ objects, selectedObjectId, sphereRadius = 500 }: Pro
               (object.z ?? 0) * sphereRadius,
             ]}
             center
-            distanceFactor={selected ? 150 : 128}
+            distanceFactor={selected ? 205 : 185}
             zIndexRange={selected ? [80, 0] : [20, 0]}
             style={{ pointerEvents: "none" }}
           >
-            <div
-              className={`sky-object-label ${selected ? "sky-object-label-selected" : ""}`}
-            >
+            <div className={`sky-object-label ${selected ? "sky-object-label-selected" : ""}`}>
               <span className="sky-object-label-name">{displayName(object)}</span>
-              <span className="sky-object-label-meta">
-                {badge(object)} · Mag {object.magnitude?.toFixed(1) ?? "n/a"}
-              </span>
             </div>
           </Html>
         );
